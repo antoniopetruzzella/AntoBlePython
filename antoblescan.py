@@ -34,13 +34,21 @@ for dev in devices:
     # https://www.bluetooth.com/specifications/assigned-numbers/generic-access-profile
     # desc is a human-readable description of the data type and value is the data itself
     for (adtype, desc, value) in dev.getScanData():
-        if desc=="Complete Local Name" and value=="AntoBLE":
-            #print ("%s = %s" % (desc, value))
-            per=Peripheral(dev.addr)
-            c=per.getCharacteristics(1,0xFFFF,"beb5483e-36e1-4688-b7f5-ea07361b26a8")
-            for cc in c:
-                print (cc.read())
-                
+        #if desc=="Complete Local Name" and value=="AntoBLE":
+        #print ("RSSI=%d DB %s = %s" % (dev.rssi, desc, dev.getValueText(255)))
+        uuid = value[8:40]
+        
+        if uuid[-4:]=="1982":
+            print("UUID: "+uuid)
+            print ("MAJOR: "+str(int("0x"+str(value[40:44]),16)))
+            print ("MINOR: "+str(int("0x"+str(value[44:48]),16)))
+
+            #print("0x"+str(value[40:44]))	
+        #per=Peripheral(dev.addr)
+        #c=per.getCharacteristics(1,0xFFFF,"beb5483e-36e1-4688-b7f5-ea07361b26a8")
+            #for cc in c:
+                #print ("%s" % cc.read().decode())
+                #per.disconnect()    
                                 
 
                 
